@@ -2,7 +2,12 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import Constant from 'expo-constants';
 import { AntDesign,Entypo,FontAwesome,MaterialIcons } from '@expo/vector-icons'; 
+
+
+import { useNavigation } from '@react-navigation/native';
+
 export function Header() {
+    const navigation = useNavigation();
   const mycolor="#212121"
   return (
     <View style={{
@@ -32,7 +37,7 @@ export function Header() {
             }}
         >
             <Entypo name="video-camera" size={24} color="black" />
-            <FontAwesome name="search" size={24} color="black" />
+            <FontAwesome name="search" size={24} color="black" onPress={()=>navigation.navigate("search")}/>
             <MaterialIcons name="account-circle" size={24} color="black" />
         </View>
     </View>

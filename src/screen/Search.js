@@ -4,7 +4,7 @@ import { Header } from '../components/Header';
 import { Card } from '../components/Card';
 import Constant from 'expo-constants';
 
-export function Search() {
+export function Search({navigation}) {
 
   return (
     <View style={{marginTop: Constant.statusBarHeight}}>

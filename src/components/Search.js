@@ -24,16 +24,17 @@ import { MiniCard } from "./MiniCard";
 
 
 
-export function Search() {
+
+export function Search({navigation}) {
   const [value, setValue] = useState("");
   let [mcd,setMCD]=useState([]);
   const [loading,setLoading]=useState(false);
   let lista=[];
   const fetchData=()=>{
+    setLoading(true);
     fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${value}&type=video&key=AIzaSyA1dr4jRLDiAD90ji1NC7E8aK8pft4GHXQ`)
     .then(res=>res.json())
     .then(data=>{
-        setLoading(true);
         console.log(data.items)
         setMCD(data.items)
         lista=data.items
@@ -45,7 +46,7 @@ export function Search() {
     })
   }
   return (
-    <View >
+    <View style={{marginTop: Constant.statusBarHeight}}>
       <View
         style={{
           padding: 10,
@@ -56,7 +57,7 @@ export function Search() {
           height: 45,
         }}
       >
-        <AntDesign name="arrowleft" size={24} color="black" />
+        <AntDesign name="arrowleft" size={24} color="black" onPress={()=>navigation.goBack()}/>
         <TextInput
           value={value}
           onChangeText={(text) => 

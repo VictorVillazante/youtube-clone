@@ -5,20 +5,19 @@ import { Card } from '../components/Card';
 import { Search } from '../components/Search';
 import Constant from 'expo-constants';
 
-export function Home() {
+export function Home({navigation}) {
 
   return (
     <View style={{marginTop: Constant.statusBarHeight}}>
-      {/* <Header />
+      <Header />
       <ScrollView>
         <Card />
         <Card />
         <Card />
         <Card />
-      </ScrollView> */}
-        {/* <Search /> */}
+      </ScrollView>
+        {/* <Search />*/}
      
-        <Header />
     </View>
   );
 }

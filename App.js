@@ -7,7 +7,7 @@ import Constant from "expo-constants";
 
 import { Home } from "./src/screen/Home";
 import { Explore } from "./src/screen/Explore";
-import { Search } from "./src/screen/Search";
+import { Search } from "./src/components/Search";
 import { Subscribe } from "./src/screen/Subscribe";
 import { VideoPlayer } from "./src/screen/VideoPlayer";
 import {
