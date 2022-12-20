@@ -8,7 +8,7 @@ import { useSelector, useDispatch} from "react-redux";
 
 export function Home({navigation}) {
   const cardData=useSelector(state=>{
-    return state
+    return state.cardData
   })
   return (
     <View style={{marginTop: Constant.statusBarHeight}}>

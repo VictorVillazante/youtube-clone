@@ -1,6 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import { NavigationContainer,DefaultTheme, DarkTheme } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  DefaultTheme,
+  DarkTheme,
+  useTheme,
+} from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Constant from "expo-constants";
@@ -17,42 +22,59 @@ import {
   MaterialIcons,
   Ionicons,
 } from "@expo/vector-icons";
-import { Provider } from "react-redux";
-import { createStore } from "redux";
+import { Provider, useSelector } from "react-redux";
+import { createStore, combineReducers } from "redux";
 import { reducer } from "./src/reducers/reducer";
+import { themeReducer } from "./src/reducers/themeReducer";
 
-const store = createStore(reducer);
 const Stack = createStackNavigator();
 const Tabs = createBottomTabNavigator();
 
-const customDarkTheme={
+const customDarkTheme = {
   ...DarkTheme,
-  colors:{
-    ...DarkTheme,
-    headerColor:"#404040"
-  }
-}
-const customDefaultTheme={
+  colors: {
+    ...DarkTheme.colors,
+    headerColor: "#404040",
+    iconColor: "#ffffff",
+    tabIcon: "#ffffff",
+  },
+};
+const customDefaultTheme = {
   ...DefaultTheme,
-  colors:{
-    ...DefaultTheme,
-    headerColor:"white"
-  }
-}
+  colors: {
+    ...DefaultTheme.colors,
+    headerColor: "white",
+    iconColor: "#404040",
+    tabIcon: "#404040",
+  },
+};
+const rooReducer = combineReducers({
+  cardData: reducer,
+  myDarMode: themeReducer,
+});
+const store = createStore(rooReducer);
 
 const RootHome = () => {
+  const { colors } = useTheme();
+
   return (
     <Tabs.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
           if (route.name === "home") {
-            return <Ionicons name="home" size={24} color="black" />;
+            return <Ionicons name="home" size={24} color={colors.tabIcon} />;
           } else if (route.name === "explore") {
-            return <MaterialIcons name="explore" size={24} color="black" />;
+            return (
+              <MaterialIcons name="explore" size={24} color={colors.tabIcon} />
+            );
           } else {
             return (
-              <MaterialIcons name="subscriptions" size={24} color="black" />
+              <MaterialIcons
+                name="subscriptions"
+                size={24}
+                color={colors.tabIcon}
+              />
             );
           }
 
@@ -85,25 +107,36 @@ const RootHome = () => {
 export default function App() {
   return (
     <Provider store={store}>
-      <NavigationContainer theme={DarkTheme}>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="root home"
-            component={RootHome}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="search"
-            component={Search}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="videoPlayer"
-            component={VideoPlayer}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <Navigation />
     </Provider>
+  );
+}
+
+export function Navigation() {
+  let currentTheme = useSelector((state) => {
+    return state.myDarMode;
+  });
+  return (
+    <NavigationContainer
+      theme={currentTheme ? customDarkTheme : customDefaultTheme}
+    >
+      <Stack.Navigator>
+        <Stack.Screen
+          name="root home"
+          component={RootHome}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="search"
+          component={Search}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="videoPlayer"
+          component={VideoPlayer}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }

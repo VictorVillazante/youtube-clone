@@ -4,17 +4,24 @@ import Constant from 'expo-constants';
 import { AntDesign,Entypo,FontAwesome,MaterialIcons } from '@expo/vector-icons'; 
 
 
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation,useTheme } from '@react-navigation/native';
+import { useSelector, useDispatch} from "react-redux";
+
 
 export function Header() {
     const navigation = useNavigation();
-  const mycolor="#212121"
+  const {colors}=useTheme()
+  const mycolor=colors.iconColor;
+  const dispatch=useDispatch();
+  const currentTheme=useSelector(state=>{
+    return state.myDarMode
+  })
   return (
     <View style={{
         marginTop: Constant.statusBarHeight,
         height: 45,
         elevation:4,
-        backgroundColor:"white",
+        backgroundColor:colors.headerColor,
         flexDirection:"row",
         justifyContent:"space-between"
     }}
@@ -36,9 +43,11 @@ export function Header() {
                 marginTop:5
             }}
         >
-            <Entypo name="video-camera" size={24} color="black" />
-            <FontAwesome name="search" size={24} color="black" onPress={()=>navigation.navigate("search")}/>
-            <MaterialIcons name="account-circle" size={24} color="black" />
+            <Entypo name="video-camera" size={24} color={mycolor} />
+            <FontAwesome name="search" size={24} color={mycolor} onPress={()=>navigation.navigate("search")}/>
+            <MaterialIcons name="account-circle" size={24} color={mycolor} 
+            onPress={()=>dispatch({type:"change_theme",payload:!currentTheme})}
+            />
         </View>
     </View>
   );

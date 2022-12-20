@@ -7,7 +7,7 @@ import { useSelector, useDispatch} from "react-redux";
 
 export function Explore() {
   const mcd=useSelector(state=>{
-    return state
+    return state.cardData
   })
   const LittleCard=({name})=>{
     return(

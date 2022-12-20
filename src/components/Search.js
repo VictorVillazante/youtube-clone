@@ -30,7 +30,7 @@ export function Search({navigation}) {
   const [value, setValue] = useState("");
   // let [mcd,setMCD]=useState([]);
   const mcd=useSelector(state=>{
-    return state
+    return state.cardData
   })
   const dispatch=useDispatch();
   const [loading,setLoading]=useState(false);
