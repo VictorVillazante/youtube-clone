@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   TextInput,
+  TouchableOpacity,
 } from "react-native";
 import Constant from "expo-constants";
 import {
@@ -16,9 +17,14 @@ import {
   Ionicons,
 } from "@expo/vector-icons";
 import { useState } from "react";
+import { useNavigation } from '@react-navigation/native';
 
 export function MiniCard(props) {
+  const navigation = useNavigation();
   return (
+    <TouchableOpacity
+      onPress={()=>navigation.navigate("videoPlayer",{videoId:props.videoId,title:props.title})}
+    >
     <View style={{flexDirection:"row",margin:10,marginBottom:0,height:100}}>
       <Image
         source={{
@@ -53,5 +59,6 @@ export function MiniCard(props) {
         </Text>
       </View>
     </View>
+    </TouchableOpacity>
   );
 }

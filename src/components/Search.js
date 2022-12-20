@@ -20,6 +20,7 @@ import {
 } from "@expo/vector-icons";
 import { useState } from "react";
 import { MiniCard } from "./MiniCard";
+import { useSelector, useDispatch} from "react-redux";
 //https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=songs&type=video&key=AIzaSyCJP8tXBoieNhAZWLYGX-6XUdSkaVJtJqw
 
 
@@ -27,7 +28,11 @@ import { MiniCard } from "./MiniCard";
 
 export function Search({navigation}) {
   const [value, setValue] = useState("");
-  let [mcd,setMCD]=useState([]);
+  // let [mcd,setMCD]=useState([]);
+  const mcd=useSelector(state=>{
+    return state
+  })
+  const dispatch=useDispatch();
   const [loading,setLoading]=useState(false);
   let lista=[];
   const fetchData=()=>{
@@ -36,10 +41,11 @@ export function Search({navigation}) {
     .then(res=>res.json())
     .then(data=>{
         console.log(data.items)
-        setMCD(data.items)
+        // setMCD(data.items)
         lista=data.items
         console.log("----------------------------------------------------------------------------")
-        mcd=lista;
+        // mcd=lista;
+        dispatch({type:"add",payload:data.items})
         console.log(mcd)
         setLoading(false);
 
